@@ -1,0 +1,94 @@
+/* Define both light and dark themes using CSS custom properties */
+:root[data-theme="light"] {
+    --bg-color: #fafafa;
+    --text-color: #222;
+    --link-color: #444;
+    --hover-color: #000;
+    --border-color: #ddd;
+    --secondary-bg: #f0f0f0;
+    --secondary-text: #666;
+}
+
+:root[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --link-color: #9e9e9e;
+    --hover-color: #fff;
+    --border-color: #333;
+    --secondary-bg: #252525;
+    --secondary-text: #999;
+}
+
+/* System preference default */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --link-color: #9e9e9e;
+        --hover-color: #fff;
+        --border-color: #333;
+        --secondary-bg: #252525;
+        --secondary-text: #999;
+    }
+}
+
+/* Theme toggle styles */
+.theme-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    border-color: var(--hover-color);
+}
+
+/* Smooth transitions for theme changes */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-mono);
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Apply theme colors to existing elements */
+a {
+    color: var(--link-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--hover-color);
+}
+
+.post, .book-entry, .music-item {
+    border-color: var(--border-color);
+}
+
+.category, .post-category {
+    background: var(--secondary-bg);
+    color: var(--secondary-text);
+}
+
+/* Invert certain images in dark mode if needed */
+:root[data-theme="dark"] img.invert-in-dark {
+    filter: invert(1);
+}
