@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mustafa Aamir</title>
+    <meta name="author" content="Mustafa Aamir">
+    <meta name="description" content>
+    <meta property="og:type" content="blog">
+
+    <!-- Mobile specific meta -->
+    <link rel="icon" type="image/x-icon" href="./images/book_icon.ico">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../styles/light_dark.css">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+    <i class="fa-solid fa-semicolon"></i>
+    <button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+        <span class="toggle-icon">☀</span>
+    </button>
+
+    <script src="../script.js"></script>
+
+    <header>
+        <h1>Writing a quantum algorithm to generate integers of a specified parity</h1>
+        <nav>
+            <a href="../index.html">blog</a>
+            <a href="../bookshelf.html">bookshelf</a>
+            <a href="../music.html">music</a>
+            <a href="https://github.com/MustafaAamir">github</a>
+        </nav>
+    </header>
+    <main>
+        <p>For an N-qubit system, the maximum number of basis-states is \(2^N\). This unique property allows us to represent
+            basis-states using bitstrings, i.e., a state of \(|0101⟩\) can be written as '0b0101'</p>
+        <p>Given a that the qubit \(\psi\) is initialized to a basis-state of \(|0⟩\) or \(|1⟩\), applying the Hadamard gate creates an
+            balanced superposition of both states. $$H|ψ⟩
+            =\frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix} \begin{bmatrix} 1 \\ 0
+            \end{bmatrix} = \begin{bmatrix} \frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{bmatrix}$$</p>
+        <p>Thus, there's an equal probability of collapsing to either \(|1⟩\) or \(|0⟩\). In a system of 2 qubits, the possible
+            basis-states are \(|00⟩\), \(|01⟩\), \(|10⟩\), and \(|11⟩\).</p>
+        <p>Applying the Hadamard gate to the first qubit in a 2-qubit system gives us \(|00⟩\) and \(|01⟩\) as the basis-states.
+        Likewise, applying the Hadamard gate to the second qubit gives us \(|00⟩\) and \(|10⟩\). Knowing that we can
+        manipulate the \(n^{th}\) bit <a href="#1" style="color: blue">[1]</a> in the basis-state bitstring by operating on the \(n^{th}\) qubit, we can craft a circuit to
+            generate only even or odd numbers.</p>
+        <p>Finding the parity of a binary number is ridiculously easy <a href="#2" style="color: blue;">[2]</a>. If the least significant bit (LSB) is set to 0,
+            it's even. Let's move on to circuit construction to test this out.
+        <br></br>
+        <h1>Environment setup</h1>
+        Let's start by creating a virtual environment <a href="#3">[3]</a> and installing the <em>qsiml</em> package for circuit simulation.
+        </code></pre>
+        <pre><code style="font-size:18px">$ pip install virtualenv
+$ mkdir qc_even
+$ cd qc_even
+$ python -m venv env
+$ source env/bin/activate
+$ pip install qsiml</code></pre>
+        <p>Open a new file in your text editor and run the following code to ensure that everything works perfectly.</p>
+        <pre><code name="python_code" style="font-size:18px" >from qsiml import QuantumCircuit
+qc = QuantumCircuit(2) </code></pre>
+        <h1>Circuit Construction</h1>
+        <p>The ethos of this function is as follows:
+        <ul>
+            <li>If the parity is set to <b>even</b>, create a superposition of \(Q_{0} \text{ to } Q_{n-2}\)</li>
+            <li>If the parity is set to <b>odd</b>, create a superposition of \(Q_{0} \text{ to } Q_{n-2}\) and apply the Pauli-X <a href="#4" style="color: blue">[4]</a> gate to \(Q_{n-1}\) </li>
+        </ul>
+        </p>
+        <pre><code name="python_code" style="font-size:18px">from qsiml import QuantumCircuit
+
+def parity_check(is_even: bool, n: int):
+    qc = QuantumCircuit(n)
+    for i in range(n - 1):
+        qc.h(i)
+
+    if not is_even:
+        qc.x(n - 1)
+
+    qc.dump()
+
+if __name__ == "__main__":
+    parity_check(True, 2) </code></pre>
+        <p>The function <b>parity_check</b> prints prints the basis-states <a href="#5">[5]</a> of the system. If <b>is_even</b> is True and \(n = 2\) it prints the following basis-states:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Basis State</th>
+      <th>Probability</th>
+      <th>Amplitude</th>
+      <th>Phase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>|00⟩</td>
+      <td>50.000000%</td>
+      <td>0.707107 + 0.000000i</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>|10⟩</td>
+      <td>50.000000%</td>
+      <td>0.707107 + 0.000000i</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>When \(n = 4\) and the parity is odd, we get the following output:</p>
+
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Basis State</th>
+                <th>Probability</th>
+                <th>Amplitude</th>
+                <th>Phase</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="math-state">|001⟩</td>
+                <td>25.000000%</td>
+                <td>0.500000 + 0.000000i</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td class="math-state">|101⟩</td>
+                <td>25.000000%</td>
+                <td>0.500000 + 0.000000i</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td class="math-state">|011⟩</td>
+                <td>25.000000%</td>
+                <td>0.500000 + 0.000000i</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td class="math-state">|111⟩</td>
+                <td>25.000000%</td>
+                <td>0.500000 + 0.000000i</td>
+                <td>0</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Try it out for yourself and deactivate the virtual environment!</p>
+    <pre><code style="style="font-size:18px">$ deactivate</code></pre>
+    <br></br>
+</div>
+<footer>
+<ol>
+    <li id="1">'bit' is a <i>portmanteau</i> of the phrase 'binary digit'. Interestingly, tech is fraught with other portmanteaus, e.g. cybord, email, emoticon, internet, intercom.</li>
+    <li id="2">Is <code style="font-size: 16px;">x % 2 == 0</code> slower than <code style="font-size: 15px;">x & 1 == 0</code>?</li>
+    <li id="3">Feel free to skip this step and proceed with a global installation. Bloating your system for a 15-minute project doesn't sit right with me though.</li>
+    <li id="4" style="margin-top: 8px; margin-bottom: 8px;">The Pauli-X Gate: \(X|{\psi}⟩ =
+\begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}
+\begin{bmatrix} \alpha \\ \beta \end{bmatrix} =
+\begin{bmatrix} 0 \cdot \alpha + 1 \cdot \beta \\ 1 \cdot \alpha + 0 \cdot \beta \end{bmatrix} =
+\begin{bmatrix} \beta \\ \alpha \end{bmatrix}\)</li>
+    <li id="5">Note that the library uses little-endian notation, whereas in the examples above i've changed them to big-endian for clarity.</li>
+</ol>
+
+</body>
+
+</html>
