@@ -242,7 +242,6 @@ th, td {
 th {
     background-color: var(--table-header-bg);
     font-weight: bold;
-    position: sticky;
     top: 0;
 }
 
