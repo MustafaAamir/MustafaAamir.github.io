@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Music Theory Through Programming</title>
+    <link rel="icon" type="image/x-icon" href="./images/book_icon.ico">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../styles/light_dark.css">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="../images/semicolon.png">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+</head>
+
+<body>
+    <i class="fa-solid fa-semicolon"></i>
+    <button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+        <span class="toggle-icon">☀</span>
+    </button>
+
+    <script src="../script.js"></script>
+    <header>
+       <nav>
+        <h1><b>A surface-level introduction to procedural music generation with Python and MIDI</b></h1>
+            <a href="../index.html">back</a>
+            <a href="../bookshelf.html">bookshelf</a>
+            <a href="../music.html">music</a>
+            <a href="https://github.com/MustafaAamir">github</a>
+        </nav>
+    </header>
+    <div class="container">
+        <p style="text-align: center;"><img src="../images/xkcd_music_scales.png"/></p>
+        <p style="margin-top: 15px">I'll be the first to admit that music theory is pretty complex. Eventhough it can be really hard to develop an
+        intuition regarding fundamental concepts without the proper tools, we can <b>create</b> tools to
+            help us visualize and understand these concepts in a way traditional methods might miss. Let's dive right
+            into it.</p>
+
+        <h2>Primer</h2>
+        <div class="definition-list">
+            <ul>
+                <li><strong>Semitone:</strong> The smallest interval between two notes in Western Music. On a piano,
+                    it's the distance between any two adjacent keys.</li>
+                <li><strong>Whole Step (Whole Tone):</strong> An interval consisting of two semitones. On a piano, this
+                    would be like moving two keys up or down, counting both black and white keys.</li>
+                <li><strong>Half Step (Half Tone):</strong> Another name for a semitone.</li>
+                <li><strong>Octave:</strong> A span of eight notes. In MIDI terms, this is an interval of 12 semitones.
+                </li>
+                <li><strong>Scale:</strong> A sequence of notes arranged in ascending or descending order, following
+                    specific interval patterns. Think of it as a recipe for creating melodies that sound good together.
+                </li>
+            </ul>
+        </div>
+
+        <h2>Getting acquainted with the MIDI</h2>
+        <p>The Musical Instrument Digital Interface (MIDI) protocol is a standard to transmit and store music. It
+            encodes musical notes, timings, pitch information, and velocity in a <code>.mid</code> file, which is then
+            decoded by a MIDI player.</p>
+
+        <p>A musical note is represented by a number between 0 and 127, where note number 60 is called 'Middle C' (a
+            convention that isn't of any use to us). An increase in the note number represents a semitone increase. So,
+            instead of dealing with abstract note names like C and C#, MIDI uses numbers from 0 to 127.</p>
+
+        <p style="margin-top: 20px; margin-bottom: 20px;">
+            Instead of looking up what each note sounds like, let's whip up a program to generate a track
+            with notes 0 to 127.
+        </p>
+
+        <h2>Environment</h2>
+        <p style="margin-top: 20px; margin-bottom: 20px;">First, let's create a workspace and install the <code>midiutil</code> package.</p>
+
+        <pre><code style="margin-top: 14px; margin-bottom: 14px;" class="language-bash">$ mkdir music_simulation
+$ cd music_simulation
+$ python3 -m pip install midiutil</code></pre>
+
+        <p style="margin-top: 20px;">You'll also need to install a MIDI player to play <code>.mid</code> files. I'm using <code>timidity</code> on
+            Linux, though any decent MIDI player should suffice for the purpose of this project.</p>
+
+        <h2>Visualizing notes</h2>
+        <pre><code style="margin-top: 14px; margin-bottom: 14px;" class="language-python">from midiutil import MIDIFile
+
+degrees = [i for i in range(128)] # initialize a list of 0..127
+
+def generate_midifile():
+    midifile = MIDIFile(1)
+    time, track = 0, 0
+    midifile.addTempo(track, time, 60)
+    for pitch in degrees: # going from 0..127
+        midifile.addNote(track, 0, pitch, time, 1, 100) # writes pitch at specified time value
+        time += 0.5
+
+    with open("scale.mid", 'wb') as file:
+        midifile.writeFile(file)
+
+if __name__ == "__main__":
+    generate_midifile()</code></pre>
+
+        <p style="margin-top: 20px; margin-bottom: 20px;">This creates a note for every value between 0 and 127 inclusive and saves them in <code>scale.mid</code>. Run
+            <code>scale.mid</code> using your midi-player and notice the semi-tonal increase every 0.5 seconds.</p>
+
+        <h2>Understanding scales</h2>
+        <p>A scale is like a palette of musical colors that work well together. Just as artists don't use every possible
+            color in a single painting, musicians don't typically use all possible notes in a single piece of music
+            (feel free to experiment with it!)</p>
+
+        <p>A half-step is a single semitone increase (+1 in MIDI) and a whole-step is a 2 semitone increase (+2 in MIDI).</p>
+
+        <p>We'll focus on the <code>C Major</code>, the most popular of the major scales in Western music, for now:</p>
+        <ol style="margin-bottom: 10px;margin-top: 10px;">
+            <li style="margin-left: 40px;">\(root\text{ }note = C_{60}\)</li>
+            <li style="margin-left: 40px;">\(C_{60} + W_{2} → D_{62}\)</li>
+            <li style="margin-left: 40px;">\(D_{62} + W_{2} → E_{64}\)</li>
+            <li style="margin-left: 40px;">\(E_{64} + H_{1} → F_{65}\)</li>
+            <li style="margin-left: 40px;">\(F_{65} + W_{2} → G_{67}\)</li>
+            <li style="margin-left: 40px;">\(G_{67} + W_{2} → A_{69}\)</li>
+            <li style="margin-left: 40px;">\(A_{69} + W_{2} → B_{71}\)</li>
+            <li style="margin-left: 40px;">\(B_{71} + H_{1} → C_{72}\)</li>
+        </ol>
+
+        <p style="margin-top: 20px; margin-bottom: 20px;"">
+            The specific pattern of whole steps (W) and half steps (H) - W W H W W W H - is what makes a major scale
+            sound 'major'. It's a cyclical pattern that takes us back to the root note (C). Here's how we encode this pattern:
+        </p>
+
+        <pre><code style="margin-top: 14px; margin-bottom: 14px;" class="language-python" style="margin-top: 15px;">WHOLE = 2 # 2 semitones
+HALF = 1 # 1 semitone
+MAJOR_SCALE = [2, 2, 1, 2, 2, 2, 1] # W-W-H-W-W-W-H
+
+def create_scale(root, intervals):
+    scale = [root] # first element is the root
+    curr_note = root
+    for interval in intervals:
+        curr_note += interval
+        scale.append(curr_note) # appends the new note to the scale
+    return scale
+
+c_major_scale = create_scale(60, MAJOR_SCALE) # returns a key scale</code></pre>
+
+        <p style="margin-top: 20px; margin-bottom: 20px;">The key-specific scale is generated by creating offsets of the root note, which was 'C' in this case.</p>
+
+        <h2>Creating Melodies</h2>
+        <p style="margin-top: 20px; margin-bottom: 20px;">Now that we understand scales, let's implement a simple, random melody generator using a given scale.</p>
+
+        <pre><code style="margin-top: 14px; margin-bottom: 14px;" class="language-python">from random import choice
+
+def generate_melody(root: int, interval: List[int], duration: int):
+    scale = create_scale(root, interval)
+    melody = [] # initializing an empty list of notes
+    possible_durations = [2, 1] # double and single semitone increase
+    duration_count = 0
+
+    while duration_count < duration:
+        note = choice(scale) # randomly selects note from scale
+        duration_choice = choice(possible_durations) # randomly selects duration from [2, 1]
+        if duration_count + duration_choice <= duration:
+            melody.append((note, duration))
+            duration_count += duration_choice
+            return melody
+
+def save_melody(melody: List[Tuple[int, int]]) -> None:
+    midifile = MIDIFile(1)
+    time = 0 # vary this
+    for note, duration in melody:
+        midifile.addNote(0, 0, note, time, duration, 100) # vary velocity
+        time += duration
+
+    # file handling
+    with open("midi_files/test1.mid", 'wb') as file:
+        midifile.writeFile(file)
+
+    print("Melody saved at location 'midi_files/test1.mid'")</code></pre>
+
+        <p style="margin-top: 20px; margin-bottom: 20px;">To create your first algorithmic melody, add the following piece of code to your program:</p>
+
+        <pre><code style="margin-top: 14px; margin-bottom: 14px;" class="language-python">C = 60
+MAJOR_SCALE = [2, 2, 1, 2, 2, 2, 1]
+if __name__ == "__main__":
+    save_melody(generate_melody(C, MAJOR_SCALE))</code></pre>
+
+    <p style="margin-top: 20px; margin-bottom: 20px;">Try modifying scale values or trying out different root notes! You're here to learn, not to follow along blindly.</p>
+
+    <h2>The naivety of this approach</h2>
+    <p>There's a glaring lack of musical context when randomly selecting notes from a scale, as it fails to take into consideration the relationship <b>between</b> notes, which can result in melodies that feel disjointed and lack a coherrent musical narrative. Though, it does try to build a harmonious narrative by using notes from the same scale. Furthermore, the generated melody can sound unnatural because it fails to account for common rhythmic patterns, instead choosing to randomly select notes from the scale. Try experimenting with weighted distribution-based sampling for a more natural sound. Finally, the approach is limited to generating monophonic (single-voice) melodies, whereas much of the richness in music comes from the graceful interplay of multiple melodic lines and harmonies.</p>
+    <h2>Moving forward</h2>
+    <p>To overcome the defecits of the naive approach, we'll implement a melody generator using Markov chains. Without going too deep into it, we'll analyze a corpus of renowned compositions to build a Markov transition matrix, which stores the probabilities of transitioning from one note to another. We'll probabilistically generate new pieces and apply some additonal rules to follow conventional music patterns (e.g. avoiding unnatural pauses, maintaining a sense of tonality, etc.).</p>
+    </div>
+</body>
+
+</html>

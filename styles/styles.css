@@ -8,6 +8,13 @@
     --hover-color: #000;
     --border-color: #ddd;
     --code-bg: #fafafa;
+    --project-hover: #e6e8e8;
+}
+
+@media (prefers-color-scheme: dark) {
+    .post-list a:hover {
+        background: #2d2e2e;
+    }
 }
 
 * {
@@ -50,14 +57,14 @@ nav a:hover {
 }
 
 h1 {
-    font-size: 1.5rem;
+    font-size: 1.9rem;
     font-weight: normal;
     margin-bottom: 0.5rem;
 }
 
 h2 {
-    font-size: 1.2rem;
-    font-weight: normal;
+    font-size: 1.5rem;
+    font-weight: bold;
     margin: 2rem 0 1rem 0;
 }
 
@@ -84,7 +91,7 @@ h2 {
 }
 
 .post-list a:hover {
-    background: rgba(0, 0, 0, 0.02);
+    background: var(--project-hover);
 }
 
 .post-date {
@@ -131,6 +138,9 @@ h2 {
 
     .post-date {
         text-align: left;
+    }
+    .project:hover {
+
     }
 }
 
@@ -258,10 +268,9 @@ td {
         font-size: 0.9rem;
     }
 
-    pre {
-        padding: 1rem;
+    pre{
+        padding: 0.35rem;
         font-size: 0.85rem;
-
     }
 }
 
@@ -270,7 +279,7 @@ pre {
     background-color: var(--code-bg);
     border-radius: 8px;
     overflow-x: auto;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--bg-color);
     margin: 2rem 0;
 }
 
