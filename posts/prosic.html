@@ -38,28 +38,12 @@
     </header>
     <div class="container">
         <p style="text-align: center;"><img src="../images/xkcd_music_scales.png"/></p>
-        <p style="margin-top: 15px">I'll be the first to admit that music theory is pretty complex. Eventhough it can be really hard to develop an
-        intuition regarding fundamental concepts without the proper tools, we can <b>create</b> tools to
+        <p style="margin-top: 15px">I'll be the first to admit that music theory is pretty complex. Eventhough it's hard to develop an
+        intuition regarding fundamental concepts without access to proper tools, we can <b>create</b> tools to
             help us visualize and understand these concepts in a way traditional methods might miss. Let's dive right
             into it.</p>
 
-        <h2>Primer</h2>
-        <div class="definition-list">
-            <ul>
-                <li><strong>Semitone:</strong> The smallest interval between two notes in Western Music. On a piano,
-                    it's the distance between any two adjacent keys.</li>
-                <li><strong>Whole Step (Whole Tone):</strong> An interval consisting of two semitones. On a piano, this
-                    would be like moving two keys up or down, counting both black and white keys.</li>
-                <li><strong>Half Step (Half Tone):</strong> Another name for a semitone.</li>
-                <li><strong>Octave:</strong> A span of eight notes. In MIDI terms, this is an interval of 12 semitones.
-                </li>
-                <li><strong>Scale:</strong> A sequence of notes arranged in ascending or descending order, following
-                    specific interval patterns. Think of it as a recipe for creating melodies that sound good together.
-                </li>
-            </ul>
-        </div>
-
-        <h2>Getting acquainted with the MIDI</h2>
+                <h2>Getting acquainted with the MIDI</h2>
         <p>The Musical Instrument Digital Interface (MIDI) protocol is a standard to transmit and store music. It
             encodes musical notes, timings, pitch information, and velocity in a <code>.mid</code> file, which is then
             decoded by a MIDI player.</p>
@@ -185,11 +169,28 @@ if __name__ == "__main__":
     save_melody(generate_melody(C, MAJOR_SCALE))</code></pre>
 
     <p style="margin-top: 20px; margin-bottom: 20px;">Try modifying scale values or trying out different root notes! You're here to learn, not to follow along blindly.</p>
+    <audio controls src="../images/test1.mp3"></audio>
+<h2>Keywords</h2>
+        <div class="definition-list">
+            <ul>
+                <li><strong>Semitone:</strong> The smallest interval between two notes in Western Music. On a piano,
+                    it's the distance between any two adjacent keys.</li>
+                <li><strong>Whole Step (Whole Tone):</strong> An interval consisting of two semitones. On a piano, this
+                    would be like moving two keys up or down, counting both black and white keys.</li>
+                <li><strong>Half Step (Half Tone):</strong> Another name for a semitone.</li>
+                <li><strong>Octave:</strong> A span of eight notes. In MIDI terms, this is an interval of 12 semitones.
+                </li>
+                <li><strong>Scale:</strong> A sequence of notes arranged in ascending or descending order, following
+                    specific interval patterns. Think of it as a recipe for creating melodies that sound good together.
+                </li>
+            </ul>
+        </div>
+
 
     <h2>The naivety of this approach</h2>
     <p>There's a glaring lack of musical context when randomly selecting notes from a scale, as it fails to take into consideration the relationship <b>between</b> notes, which can result in melodies that feel disjointed and lack a coherrent musical narrative. Though, it does try to build a harmonious narrative by using notes from the same scale. Furthermore, the generated melody can sound unnatural because it fails to account for common rhythmic patterns, instead choosing to randomly select notes from the scale. Try experimenting with weighted distribution-based sampling for a more natural sound. Finally, the approach is limited to generating monophonic (single-voice) melodies, whereas much of the richness in music comes from the graceful interplay of multiple melodic lines and harmonies.</p>
     <h2>Moving forward</h2>
-    <p>To overcome the defecits of the naive approach, we'll implement a melody generator using Markov chains. Without going too deep into it, we'll analyze a corpus of renowned compositions to build a Markov transition matrix, which stores the probabilities of transitioning from one note to another. We'll probabilistically generate new pieces and apply some additonal rules to follow conventional music patterns (e.g. avoiding unnatural pauses, maintaining a sense of tonality, etc.).</p>
+    <p>To overcome the deficits of the naive approach, we'll implement a melody generator using Markov chains. Without going too deep into it, we'll analyze a corpus of renowned compositions to build a Markov transition matrix, which stores the probabilities of transitioning from one note to another. We'll probabilistically generate new pieces and apply some additonal rules to follow conventional music patterns (e.g. avoiding unnatural pauses, maintaining a sense of tonality, etc.).</p>
     </div>
 </body>
 
