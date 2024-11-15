@@ -48,12 +48,10 @@ nav a {
     text-decoration: none;
     color: var(--link-color);
     font-size: 0.9rem;
-    text-transform: lowercase;
 }
 
 nav a:hover {
     color: var(--hover-color);
-    text-decoration: underline;
 }
 
 h1 {
@@ -87,11 +85,13 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 0.5rem 0;
+    padding: 1.5rem 0;
 }
 
 .post-list a:hover {
     background: var(--project-hover);
+    transform: scale(1.0087);
+    transition: transform 0.3s ease;
 }
 
 .post-date {
@@ -138,9 +138,6 @@ h2 {
 
     .post-date {
         text-align: left;
-    }
-    .project:hover {
-
     }
 }
 
@@ -215,12 +212,17 @@ h2 {
 .github-projects {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .project {
     padding: 1rem;
     border: 1px solid var(--border-color);
+}
+
+.project:hover {
+    transform: scale(1.047);
+    transition: transform 0.3s ease;
 }
 
 .project-title {
@@ -288,3 +290,4 @@ code {
     line-height: 1.6;
     color: var(--text-color);
 }
+

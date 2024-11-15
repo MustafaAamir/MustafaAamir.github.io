@@ -29,4 +29,22 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
         toggleIcon.textContent = e.matches ? '☀' : '☾';
     }
 });
-
+// Vim-like keybindings
+document.addEventListener('keydown', (event) => {
+  switch (event.key) {
+    case 'j':
+      window.scrollBy({top: 100, behavior: 'smooth'});
+      break;
+    case 'k':
+      window.scrollBy({top: -100, behavior: 'smooth'});
+      break;
+    case 'g':
+      if (event.key === 'g')  {
+          window.scrollBy({top: -document.body.scrollHeight, behavior: 'smooth'});
+      }
+      break;
+    case 'G':
+      window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+      break;
+  }
+});
