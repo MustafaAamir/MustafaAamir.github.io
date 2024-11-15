@@ -90,7 +90,6 @@ a:hover {
     color: var(--secondary-text);
 }
 
-/* Invert certain images in dark mode if needed */
 :root[data-theme="dark"] img.invert-in-dark {
     filter: invert(1);
 }

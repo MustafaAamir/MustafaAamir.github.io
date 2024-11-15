@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="./styles/light_dark.css">
     <link rel="stylesheet" href="./styles/styles.css">
     <link rel="icon" type="image/x-icon" href="./images/semicolon.png">
-    <script src="./images/oneko/oneko.js"></script>
 </head>
 <body>
     <button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
@@ -35,11 +34,8 @@
     </header>
 
     <main>
-        <section id="blog" class="section">
-            <h2><strong>About me</strong></h2>
-            <p>Hi! I'm Mustafa. I like music, reading, and recreational programming. Currently working on a regex library for C++ and algorithmic music generation.</p>
-        </section>
-        <section id="blog" class="section">
+        <h2><strong>About me</strong></h2>
+        <p>Hi! I'm Mustafa. I like music, reading, and recreational programming. Currently working on a regex library for C++ and algorithmic music generation.</p>
             <h2><strong>Latest Blog Posts</strong></h2>
             <ul class="post-list">
                 <li>
@@ -53,10 +49,11 @@
                     </a>
                 </li>
             </ul>
-        </section>
 
         <section id="github" class="section">
-            <h2><img width="30px" height="28px" src="./images/github-mark-c791e9551fe4/github-mark/github-mark.svg" style="margin-right: 10px;" alt="GitHub" onclick><strong>Projects</strong></h2>
+            <h2>
+                <img width="30px" height="28px" src="./images/github-mark-c791e9551fe4/github-mark/github-mark.svg" style="margin-right: 10px; filter: invert(0.5)" alt="GitHub" class="github-icon"><strong>Projects</strong>
+            </h2>
             <div class="github-projects">
                 <div class="project">
                     <a href="https://www.github.com/MustafaAamir/qsiml" class="project-title">qsiml</a>
