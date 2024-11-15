@@ -4,6 +4,7 @@ const toggleIcon = document.querySelector('.toggle-icon');
 
 // Check for saved theme preference or use system preference
 const savedTheme = localStorage.getItem('theme');
+
 if (savedTheme) {
     root.setAttribute('data-theme', savedTheme);
     toggleIcon.textContent = savedTheme === 'dark' ? '☀' : '☾';
@@ -17,13 +18,12 @@ if (savedTheme) {
 themeToggle.addEventListener('click', () => {
     const currentTheme = root.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
     root.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     toggleIcon.textContent = newTheme === 'dark' ? '☀' : '☾';
 });
 
-// Listen for system theme changes
+// Event listener to update the icon when the theme changes
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     if (!localStorage.getItem('theme')) {
         toggleIcon.textContent = e.matches ? '☀' : '☾';

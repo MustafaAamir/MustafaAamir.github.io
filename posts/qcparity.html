@@ -43,7 +43,7 @@
     <main>
         <p>For an N-qubit system, the maximum number of basis-states is \(2^N\). This unique property allows us to represent
             basis-states using bitstrings, i.e., a state of \(|0101⟩\) can be written as '0b0101'</p>
-        <p>Given a that the qubit \(\psi\) is initialized to a basis-state of \(|0⟩\) or \(|1⟩\), applying the Hadamard gate creates an
+        <p>Given that the qubit \(\psi\) is initialized to a basis-state of \(|0⟩\) or \(|1⟩\), applying the Hadamard gate creates an
             balanced superposition of both states. $$H|ψ⟩
             =\frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix} \begin{bmatrix} 1 \\ 0
             \end{bmatrix} = \begin{bmatrix} \frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{bmatrix}$$</p>
@@ -54,7 +54,7 @@
         manipulate the \(n^{th}\) bit<sup><a href="#1" style="color: blue">[1]</a></sup> in the basis-state bitstring by operating on the \(n^{th}\) qubit, we can craft a circuit to
             generate only even or odd numbers.</p>
         <p>Finding the parity of a binary number is ridiculously easy<sup><a href="#2" style="color: blue;">[2]</a></sup>. If the least significant bit (LSB) is set to 0,
-            it's even. Let's move on to circuit construction to test this out.
+        it's even. Therefore, the definition of an even bitstring is \(\{0, 1\}^{N-1}0\). Let's move on to circuit construction to test this out.
         <br></br>
         <h1>Environment setup</h1>
         Let's start by creating a virtual environment<sup><a href="#3" style="color: blue">[3]</a></sup> and installing the <a href="https://pypi.org/project/qsiml">qsiml</a> package for circuit simulation.
@@ -164,15 +164,15 @@ if __name__ == "__main__":
 </div>
 <footer>
 <ol>
-    <li id="1">'bit' is a <i>portmanteau</i> of the phrase 'binary digit'. Interestingly, tech is fraught with other portmanteaus, e.g. cyborg, email, emoticon, internet, intercom.</li>
-    <li id="2">Is <code style="font-size: 16px;">x % 2 == 0</code> slower than <code style="font-size: 15px;">x & 1 == 0</code>?</li>
-    <li id="3">Feel free to skip this step and proceed with a global installation. Bloating your system for a 15-minute project doesn't sit right with me though.</li>
-    <li id="4" style="margin-top: 8px; margin-bottom: 8px;">The Pauli-X Gate: \(X|{\psi}⟩ =
+    <li id="1" style="margin-left: 25px;">'bit' is a <i>portmanteau</i> of the phrase 'binary digit'. Interestingly, tech is fraught with other portmanteaus, e.g. cyborg, email, emoticon, internet, intercom.</li>
+    <li id="2" style="margin-left: 25px;">Is <code style="font-size: 16px;">x % 2 == 0</code> slower than <code style="font-size: 15px;">x & 1 == 0</code>?</li>
+    <li id="3" style="margin-left: 25px;">Feel free to skip this step and proceed with a global installation. Bloating your system for a 15-minute project doesn't sit right with me though.</li>
+    <li id="4" style="margin-top: 8px; margin-bottom: 8px; margin-left: 25px;">The Pauli-X Gate: \(X|{\psi}⟩ =
 \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}
 \begin{bmatrix} \alpha \\ \beta \end{bmatrix} =
 \begin{bmatrix} 0 \cdot \alpha + 1 \cdot \beta \\ 1 \cdot \alpha + 0 \cdot \beta \end{bmatrix} =
 \begin{bmatrix} \beta \\ \alpha \end{bmatrix}\)</li>
-    <li id="5">Note that the library uses little-endian notation, whereas in the examples above i've changed it to big-endian for clarity.</li>
+    <li id="5" style="margin-left: 25px;">Note that the library uses little-endian notation, whereas in the examples above i've changed it to big-endian for clarity.</li>
 </ol>
 
 </body>
