@@ -291,3 +291,16 @@ code {
     color: var(--text-color);
 }
 
+.language-python, .language-bash {
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.language-python::-webkit-scrollbar, .language-bash::-webkit-scrollbar{ /* Target Chrome, Safari, etc. */
+  width: 10px; /* Adjust scrollbar width */
+  background-color: #F5F5F5; /* Set background color */
+}
+
+.language-python::-webkit-scrollbar-thumb, .language-bash::-webkit-scrollbar-thumb { /* Target scrollbar thumb */
+  background-color: #ccc; /* Set thumb color */
+  border-radius: 5px; /* Add rounded corners */
+}
